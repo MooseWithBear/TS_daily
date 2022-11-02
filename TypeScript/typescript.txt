@@ -363,6 +363,7 @@ user.gender = 'male';
 //user.birthYear = 2022; //readonly 이기때문에 에러발생
 console.log(user.name , user.age); 
 
+------------------------------------------------------------------------------------------------
 
 ex3_5) 함수 정의
 interface Add{
