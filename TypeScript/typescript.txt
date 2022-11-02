@@ -1,0 +1,877 @@
+<TypeScript>
+
+2012년 마이크로소프트가 발표한 타입스크립트(TypeScript)는 
+자바스크립트(JavaScript)를 기반으로 정적 타입 문법을 추가한 프로그래밍 언어이입니다. 
+
+-컴파일 언어, 정적 타입 언어
+자바스크립트는 동적 타입의 인터프리터 언어로 런타임에서 오류를 발견할 수 있습니다. 
+이에 반해 타입스크립트는 정적 타입의 컴파일 언어이며 타입스크립트 컴파일러 또는 바벨(Babel)을 통해 자바스크립트 코드로 변환됩니다. 
+코드 작성 단계에서 타입을 체크해 오류를 확인할 수 있고 미리 타입을 결정하기 때문에 실행 속도가 매우 빠르다는 장점이 있습니다. 하지만 코드 작성 시 매번 타입을 결정해야 하기 때문에 번거롭고 코드량이 증가하며 컴파일 시간이 오래 걸린다는 단점이 있습니다.
+
+-자바스크립트 슈퍼셋(Superset)
+타입스크립트는 자바스크립트의 슈퍼셋, 즉 자바스크립트 기본 문법에 타입스크립트의 문법을 추가한 언어입니다. 
+따라서 유효한 자바스크립트로 작성한 코드는 확장자를 .js에서 .ts로 변경하고 타입스크립트로 컴파일해 변환할 수 있습니다.
+
+-객체 지향 프로그래밍 지원
+타입스크립트는 ES6(ECMAScript 6)에서 새롭게 사용된 문법을 포함하고 있으며 클래스, 인터페이스, 상속, 모듈 등과 같은 
+객체 지향 프로그래밍 패턴을 제공합니다.
+
+-Static Typing(정적 타입핑) -> 타입에 맞는 값만 할당/반환 되어야한다
+
+-타입스크립트(TypeScript) 개발 환경 설정 (.ts => .js 파일로 변환하는 방법)
+  -Vscode 설치 (prettier/eslint/path intellisense/Bracket Pair Colorizer/Material Icon Theme)
+  -node.js 최신버전 설치 (https://nodejs.org/ko/)
+  -Vscode의 터미널을 오픈
+  -npm install -g typescript   (TypeScript 설치)
+  -Vscode에서 작업 폴더를 세팅한다
+  -.ts 파일을 생성하고 TypeScript를 코딩한다   예)ex.ts
+  -동일경로에 tsconfig.json 파일을 만들고 아래 코드를 입력한다
+
+   {   
+    "compilerOptions" : {     
+      "target": "es5",     
+      "module": "commonjs",
+      "strict" : true  
+    } 
+  }
+  -또는 ex.ts 파일에서 터미널에 tsc --init 을 입력하면 tsconfig.json 파일이 자동 생성된다 
+
+  -.ts 코드를 .js변환하기
+   터미널에서 tsc -w 또는 tsc ex.ts 입력한다
+   -tsc ex.ts -> (ts파일 수정시 마다 다시 입력하여 컴파일 해야한다)
+   -tsc -w  -> (ts파일 수정시 자동으로 js파일도 변경하여 컴파일 해준다-권장)
+   -tsc 입력시 오류 : 이 시스템에서 스크립트를 실행할 수 없으므로 C:\Users\cobee\AppData\Roaming\npm\tsc.ps1 파일을 로드할 수 없습니다. 자세한 내용은 about_Execution_Policies(https://go.microsoft.com/fwlink/?LinkID=135170)를 참조 => 에러가 발생하면
+   -터미널에 아래코드를 입력한다(보안오류)
+      -$ Get-ExecutionPolicy
+      -$ Set-ExecutionPolicy RemoteSigned
+      -$ tsc -w
+   -동일한 경로에 .js파일이 변환되어 만들어 진다
+   -.ts파일에 타입스크립트를 작성해서 저장하면 자동으로 .js파일로 변환(컴파일)되어 업데이트 된다
+   -.html파일에서는 .js파일로 연결해서 사용한다
+
+ *https://www.typescriptlang.org/  => 타입스크립트(.ts)를 바로 js로 확인할 수 있는 사이트
+
+========================================================================================
+
+1.타입스크립트(TypeScript)를 쓰는 이유
+
+ex1)
+<script>
+ let num = 10;
+ num = 'Good!';
+ console.log(num); // 'Good!'
+
+ function add(num1, num2){
+        console.log(num1+num2);
+    }
+
+    add();  //NaN
+    add(1);  //NaN
+    add(1,2);  //3
+    add(1,2,3);  //3
+    add('hello', 'world'); // 'helloworld'
+</script>
+
+  *어떠한 에러와 경고의 메시지도 출력하지 않는다. 
+
+ex1-1)
+<script>
+    function showItems(arr){
+        arr.forEach((item) => {
+            console.log(item);
+        });
+        
+    }
+
+    showItems([1,2,3]);
+    showItems(1,2,3);  //TypeError 발생
+</script>
+  
+  *javascript(동적언어) -> 런타임에 타입결정 / 오류발견
+  *java / TypeScript (정적언어) -> 컴파일 타입에 타입 결정 / 오류발견
+
+ 
+ex1_수정)타입스크립트로 수정 (.ts) -> Static Typing(정적 타입핑)
+
+    let num: number = 10;
+    //num = 'Good!'; //에러표시
+    console.log(num); // 10 
+
+    function add(num1:number, num2:number){
+        console.log(num1+num2);
+    }
+
+    //add();  //에러표시
+    //add(1);  //에러표시
+    add(1,2);  //3 
+    //add(1,2,3);  //에러표시
+    //add('hello', 'world'); //에러표시
+
+
+
+ex1_1수정)타입스크립트로 수정 (.ts)
+
+    function showItems(arr:number[]){
+        arr.forEach((item) => {
+            console.log(item);
+        });
+        
+    }
+
+    showItems([1,2,3]);
+    //showItems(1,2,3);  //에러표시
+
+----------------------------------------------------------------
+2.타입 명시
+-변수를 선언할 때, 변수 값의 타입을 명시함으로써 변수 값의 데이터 타입을 지정한다
+
+ex2) 기본 타입 지정방법
+
+let car:string = 'BMW';
+let age:number = 100;
+let isAdult:boolean = true;
+
+let num:number[] = [1,2,3,4,5,];
+let num2:Array<number> = [100,200,300];
+
+let str:string[] = ['사과','배','참외','수박'];
+let str2:Array<string> = ['냉장고','정수기','에어컨','공기청정기'];
+
+let obj:{name:string} = {name : 'kim'} ;
+
+let val:string | number = 'kim'; // 문자 또는 숫자를 모두 받을 수 있다
+
+car = 100;   //type 에러 발생
+age = '홍길동';  //type 에러 발생
+num[0] = '김치';  //type 에러 발생
+str[0] = true;  //type 에러 발생
+obj.name = 100; //type 에러 발생
+
+
+ex2_1) 튜플(Tuple)
+
+type Member = [number, boolean]; //타입만 지정한다(대문자 권장)
+
+let a:[string, number];
+
+a = ['k',1];
+a = [1,'k'];  //에러발생
+
+a[0].toUpperCase();
+a[1].toUpperCase(); //에러발생
+
+let kim:Member = [123, true];
+kim=[100, false];
+kim=['홍길동', 100]; //에러발생
+
+
+ex2_2) void - 함수에서 리턴값이 없을때
+
+function sayHello():void{
+    console.log('hello');
+}
+
+function sayHello2():number{
+    return 100;
+}
+
+function sayHello3(a:number, b:number):number{
+    return a+b;
+}
+
+sayHello();
+console.log(sayHello2());
+console.log(sayHello3(100,200));
+
+ex2_2_1)화살표 함수
+const isGreater = (a: number, b: number): boolean => {
+	return a > b;
+}
+console.log(isGreater(100,200));
+
+
+ex2_3) null, undefined
+
+let a:null = null;
+let b:undefined = undefined;
+
+a=100; //에러발생
+b=100; //에러발생
+
+
+ex2_4) object
+
+type Member = {
+   name : string,
+   tel : string,
+   add : string
+}
+
+let kim:Member = { name:'kim', tel:'010-0000-0000', add:'서울'};
+console.log(kim.name, kim.tel, kim.add);
+
+
+ex2_5) object2
+
+type Member = {
+   [key:string] : string  //object에 타입지정해야할 속성이 너무 많으면
+}
+
+let kim:Member = { name:'kim', tel:'010-0000-0000', add:'서울'};
+console.log(kim.name, kim.tel, kim.add);
+
+----------------------------------------------------
+
+3.인터페이스(interface)의 다양한 활용
+
+ex3)
+let user:object;
+
+user ={
+    name : '홍길동',
+    age : 30
+}
+console.log(user.name , user.age); //객체의 속성에 타입이 지정되지 않아서 에러
+
+
+ex3_1)인터페이스 사용
+interface User {
+    name : string;
+    age : number;
+}
+
+let user : User ={
+    name : '홍길동',
+    age : 30
+}
+
+user.age=10;
+console.log(user.name , user.age); 
+
+
+ex3_2) ? (사용해도 되고 안해도 되는 속성에 ?옵션을 사용한다)
+interface User {
+    name : string;
+    age : number;
+    gender? : string;
+}
+
+let user : User ={
+    name : '홍길동',
+    age : 30
+}
+
+user.age=10;
+user.gender = 'male'; //초기값을 주지 않았지만 gender? 로 처리해서 에러 발생하지 않는다
+console.log(user.name , user.age); 
+
+
+ex3_3) readonly -> 읽기 전용 (값을 읽을 수는 있지만 수정할 수 없다)
+interface User {
+    name : string;
+    age : number;
+    gender? : string;
+    readonly birthYear : number;
+}
+
+let user : User ={
+    name : '홍길동',
+    age : 30,
+    birthYear : 2000
+}
+
+user.age=10;
+user.gender = 'male';
+user.birthYear = 2022; //readonly 이기때문에 에러발생
+console.log(user.name , user.age); 
+
+ex3_4)
+interface User {
+    name : string;
+    age : number;
+    gender? : string;
+    readonly birthYear : number;
+    1 : string;
+    2 : string;
+    3 : string;
+    4 : string;
+}
+
+let user : User ={
+    name : '홍길동',
+    age : 30,
+    birthYear : 2000,
+    1 : 'A',
+    2 : 'B',
+    3 : 'C',
+    4 : 'F'
+}
+
+user.age=10;
+user.gender = 'male';
+//user.birthYear = 2022; //readonly 이기때문에 에러발생
+console.log(user.name , user.age, user.birthYear, user.gender, user[1], user[2], user[3], user[4]); 
+
+ex3_4_1)
+interface User {
+    name : string;
+    age : number;
+    gender? : string;
+    readonly birthYear : number;
+    [key:number] : string;
+}
+
+let user : User ={
+    name : '홍길동',
+    age : 30,
+    birthYear : 2000,
+    1 : 'A',
+    2 : 'B',
+    3 : 'C',
+    4 : 'F'
+}
+
+user.age=10;
+user.gender = 'male';
+//user.birthYear = 2022; //readonly 이기때문에 에러발생
+console.log(user.name , user.age, user.birthYear, user.gender, user[1], user[2], user[3], user[4]); 
+
+
+ex3_4_2) 여러개의 객체 속성을 한번에 정의하는 방법
+type Score = 'A' | 'B' | 'C' | 'F';   //4개의 학점(대문자)만 사용
+
+interface User {
+    name : string;
+    age : number;
+    gender? : string;
+    readonly birthYear : number;
+    [key:number] : Score;    //[key:number] : string;
+}
+
+let user : User ={
+    name : '홍길동',
+    age : 30,
+    birthYear : 2000,
+   1 : 'A',
+    2 : 'B',
+    3 : 'C',
+    4 : 'F'
+}
+
+user.age=10;
+user.gender = 'male';
+//user.birthYear = 2022; //readonly 이기때문에 에러발생
+console.log(user.name , user.age); 
+
+
+ex3_5) 함수 정의
+interface Add{
+    (num1:number , num2:number): number;
+} 
+const add : Add = function(x,y){
+    return x+y;
+}
+console.log(add(10,20));  // 30
+
+interface IsAdult{
+    (age:number): boolean;
+} 
+const kim: IsAdult = (age) => {
+    return age>19;
+}
+console.log(kim(30));  // true
+
+
+ex3_6) 클래스 정의
+//클래스는 implements 를 사용한다
+
+interface Car{
+    color:string;
+    wheels:number;
+    start():void;
+}
+
+class Bmw implements Car{
+    color;
+    wheels=4;
+    constructor(c:string){
+        this.color=c;
+    }
+    start():void{
+        console.log('go....!');
+    }
+}
+
+const car1 = new Bmw('green');
+console.log(car1);
+car1.start();
+
+ex3_7)extends (확장)
+interface Car{
+    color:string;
+    wheels:number;
+    start():void;
+}
+
+interface Car2 extends Car{
+    door:number;
+    stop():void;
+}
+
+class Bmw implements Car{
+    color;
+    wheels=4;
+    constructor(c:string){
+        this.color=c;
+    }
+    start():void{
+        console.log('Bmw go....!');
+    }
+}
+
+const car1 = new Bmw('green');
+console.log(car1);
+car1.start();
+
+class Benz implements Car2{
+    color='red';
+    wheels=4;
+    door;
+    constructor(c:number){
+        this.door=c;
+    }
+    start():void{
+        console.log('Benz go....!');
+    }
+    stop():void{
+        console.log('Benz stop....!');
+    }
+}
+
+const car2 = new Benz(4);
+console.log(car2);
+car2.start();
+car2.stop();
+
+ex3_7_1) extends (확장)
+interface Car{
+    color:string;
+    wheels:number;
+    start():void;
+}
+
+interface Toy{
+    name:string;
+    open():void;
+}
+
+interface ToyCar extends Car,Toy{
+    price:number;
+    buy():void;
+}
+
+class Product implements ToyCar{
+    color='red';
+    wheels=4;
+    name='doll';
+    price=500;
+
+    start():void{
+        console.log('start....!');
+    }
+    open():void{
+        console.log('open stop....!');
+    }
+    buy():void{
+        console.log('buy stop....!');
+    }
+}
+
+const person1 = new Product();
+console.log(person1);
+person1.start();
+person1.open();
+person1.buy();
+
+------------------------------------------------
+4. 함수 타입 정의 방법
+
+ex4)
+function add(num1:number , num2:number):number{
+    return num1+num2;
+}
+console.log(add(10,20));  //30
+
+function isAdult(age:number):boolean{
+    return age > 19;
+}
+console.log(isAdult(30));  //true
+
+
+ex4_1) 
+function hello(name:string){
+    return `Hello, ${name || "world"}`;
+}
+
+const result = hello();  //에러발생
+const result2 = hello('kim');
+console.log(result, result2);
+
+
+/*
+function hello(name?:string){  //변수? -> 선택적 매개변수
+    return `Hello, ${name || "world"}`;
+}
+
+const result = hello(); 
+const result2 = hello('kim'); 
+console.log(result, result2);
+*/
+
+
+ex4_2)
+function hello(name:string){
+    return `Hello, ${name || "world"}`;
+}
+const result = hello();  //에러발생
+const result2 = hello('kim');
+console.log(result, result2);
+
+/*
+function hello(name?:string){  //변수? -> 선택적 매개변수
+    return `Hello, ${name || "world"}`;
+}
+const result = hello(); 
+const result2 = hello('kim'); 
+console.log(result, result2);
+
+function hello2(name = 'world'){  //변수? -> 선택적 매개변수
+    return `Hello, ${name}`;
+}
+const result3 = hello(); 
+const result4 = hello('kim'); 
+console.log(result3, result4);
+*/
+
+
+ex4_3)나머지 매개변수
+function add(...nums:number[]):number {
+     return nums.reduce((result,num) => result + num);
+}
+console.log(add(1,2,3));
+console.log(add(1,2,3,4,5,6,7,8,9,10));
+
+ex4_4)
+interface User{
+    name:string;
+    age:number;
+}
+
+function join(name:string, age:number):User {
+    return {
+        name,
+        age
+    };
+}
+
+const person1:User = join('최순실', 60);
+console.log(person1);
+
+ex4_4_1)화살표함수로 수정
+interface User{
+    name:string;
+    age:number;
+}
+
+interface Func {
+    (name:string, age:number): User;
+} 
+
+const join:Func= (name, age) => {
+    return {
+        name,
+        age
+    };
+}
+
+const person1:User = join('최순실', 60);
+console.log(person1);
+
+------------------------------------------------------
+5. 리터럴(Literal types) / 유니온(Union types) / 교차타입(Intersection types)
+
+
+ex5) 리터럴 / 유니온 -> | (또는)
+const userName1 = 'Bob'; //type -> 'Bob' (상수)
+let userName2 = 'Tom';  //type -> string
+let userName3: string | number = 'Kim' ;
+
+userName3 = 100; 
+console.log(userName1, userName2, userName3);
+
+type Job = "police" | "developer" | "teacher";
+
+interface User{
+    name : string;
+    job : Job;
+}
+
+const user:User ={
+    name : "Bob",
+    job : "developer"   // job : "student" -> 에러
+}
+console.log(user.name, user.job);
+
+ex5_1) 교차타입 -> &   (여러개의 타입을 하나로 합친다)
+interface Car{
+    name : string;
+    start(): void;
+}
+
+interface Toy{
+    name : string;
+    color : string;
+    price: number;
+}
+
+const toyCar : Toy & Car ={
+    name: '버스',
+    color: 'blue',
+    price: 10000,
+    start(){
+        console.log(this.name, this.color, this.price+'원');
+    }
+}
+toyCar.start();
+
+----------------------------------------------------
+
+6. 클래스 (class)  -> ES6
+
+ex6) 자바스크립트(.js) 에서는 오류가 발생하지 않는다.
+class Car{
+    constructor(color){
+        this.color = color;
+    }
+    start(){
+        console.log(this.color + " car start!");
+    }
+}
+
+const bmw = new Car("red");
+bmw.start();
+
+*그러나 .ts에서는 color 부분에서 오류 3개가 발생한다
+
+ex6_1) 클래스 맴버변수를 꼭 선언을 해주어야 한다(.ts)
+class Car{
+    color: string;
+    constructor(color: string){
+        this.color = color;
+    }
+    start(){
+        console.log(this.color + " car start!");
+    }
+}
+
+const bmw = new Car("red");
+bmw.start();
+
+
+ex6_2) public 사용
+class Car{
+    //color: string;
+    constructor(public color: string){
+        this.color = color;
+    }
+    start(){
+        console.log(this.color + " car start!");
+    }
+}
+
+const bmw = new Car("red");
+bmw.start();
+
+
+ex6_3) readonly 사용(읽기전용)
+class Car{
+    //color: string;
+    constructor(readonly color: string){
+        this.color = color;
+    }
+    start(){
+        console.log(this.color + " car start!");
+    }
+}
+
+const bmw = new Car("red");
+bmw.start();
+//bmw.color='red';   //에러 : 읽기 전용이라 값을 바꿀 수 없다
+
+ex6_4) 접근 제한자(Access Modifier)
+   -public   -> 자식 클래스, 클래스 인스턴스 모두 접근 가능(생략하면 기본값)
+   -private   -> 해당 클래스 내부에서만 접근 가능(자식 클래스 사용 불가)
+   -protected  -> 자식클래스에서 접근 가능/ 클래스 인스턴스에서 접근 불가
+
+ex6_4_1)public
+class Car{
+    public name:string = "똥차";
+    color:string;
+    constructor(color:string){
+        this.color=color;
+    }
+    start(){
+        console.log('부모클래스 strat!!',this.name, this.color);
+    }
+}
+
+class Bmw extends Car{
+    constructor(color:string){
+        super(color);
+    }
+    showName(){
+       console.log('자식클래스 strat!!', this.name , this.color);  //자식 클래스에서도 사용할 수 있다
+    }
+}
+
+const mycar = new Bmw("red");
+mycar.name="새차";  //인스턴스에서 직접 값을 바꿀 수 있다
+mycar.start();
+mycar.showName();
+
+ex6_4_2)private
+class Car{
+    private name:string = "똥차";
+    color:string;
+    constructor(color:string){
+        this.color=color;
+    }
+    start(){
+        console.log('부모클래스 strat!!',this.name, this.color);
+    }
+}
+
+class Bmw extends Car{
+    constructor(color:string){
+        super(color);
+    }
+    showName(){
+       console.log('자식클래스 strat!!', this.name , this.color);  //에러 : 자식 클래스에서도 사용할 수 없다
+    }
+}
+
+const mycar = new Bmw("red");
+mycar.name="새차";  //에러 : 인스턴스에서 직접 값을 바꿀 수 없다
+mycar.start();
+mycar.showName();
+
+ex6_4_3)protected
+class Car{
+    protected name:string = "똥차";
+    color:string;
+    constructor(color:string){
+        this.color=color;
+    }
+    start(){
+        console.log('부모클래스 strat!!', this.name, this.color);
+    }
+}
+
+class Bmw extends Car{
+    constructor(color:string){
+        super(color);
+    }
+    showName(){
+       console.log('자식클래스 strat!!', this.name , this.color);  //자식 클래스에서도 사용할 수 있다
+    }
+}
+
+const mycar = new Bmw("red");
+mycar.name="새차";  //에러 : 인스턴스에서 직접 값을 바꿀 수 없다
+mycar.start();
+mycar.showName();
+----------------------------------------------------
+
+7. 제네릭(Generics)
+-제네릭은 특정 타입을 이용해서 템플릿처럼 함수를 만들 수 있다
+
+ex7) 함수의 매개변수의 전달 인자의 타입이 다를때...
+function getSize(arr: number[]): number{
+   return arr.length;
+}
+
+const arr=[1,2,3]; 
+console.log(getSize(arr));  //3
+
+const arr2 = ['a','b','c','d','e'];
+console.log(getSize(arr2));  //에러가 발생한다
+
+
+ex7_1) 유니온(Union types)  사용 -> | 
+function getSize(arr: number[] | string[]): number{
+   return arr.length;
+}
+
+const arr=[1,2,3]; 
+console.log(getSize(arr));  //3
+
+const arr2 = ['a','b','c','d','e'];
+console.log(getSize(arr2)); //5
+
+
+ex7_2) 제네릭(Generics) 사용 - function 함수명<타입파라미터>(매개변수:타입파라미터):타입{}
+
+function getSize<T>(arr: T[]): number{
+   return arr.length;
+}
+
+const arr=[1,2,3]; 
+console.log(getSize<number>(arr));  
+
+const arr2 = ['a','b','c','d','e'];
+console.log(getSize<string>(arr2));  
+
+const arr3 = [true,false,false,true];
+console.log(getSize<Boolean>(arr3));
+
+//<타입파라미터> -> <T>,<A>,<X>... 아무값이나 사용가능 하다
+
+
+ex7_3)
+interface Mobile<T>{
+    name: string;
+    price: number;
+    option: T;
+}
+/*
+const obj1: Mobile<object> ={
+    name: '삼성 s20',
+    price: 100,
+    option: {
+        color: 'red',
+        coupon: false
+    }
+};
+*/
+const obj1: Mobile<{color:string; coupon:boolean}> ={
+    name: '삼성 s20',
+    price: 100,
+    option: {
+        color: 'red',
+        coupon: false
+    }
+};
+console.log(obj1.name , obj1.price +'만원', '색상:'+obj1.option.color, '쿠폰:'+obj1.option.coupon);
+
+const obj2: Mobile<string> ={
+    name: '삼성 s22',
+    price: 120,
+    option: 'android OS'
+};
+console.log(obj2.name , obj2.price +'만원', obj2.option);
+
+--------------------------------------------
+
+
+
+ 
