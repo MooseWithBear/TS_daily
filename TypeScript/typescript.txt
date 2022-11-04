@@ -19,7 +19,7 @@
 -Static Typing(정적 타입핑) -> 타입에 맞는 값만 할당/반환 되어야한다
 
 -타입스크립트(TypeScript) 개발 환경 설정 (.ts => .js 파일로 변환하는 방법)
-  -Vscode 설치 (prettier/eslint/path intellisense/Bracket Pair Colorizer/Material Icon Theme)
+  -Vscode 설치 (prettier/eslint/path intellisense/Bracket Pair Colorizer/Material Icon Theme)
   -node.js 최신버전 설치 (https://nodejs.org/ko/)
   -Vscode의 터미널을 오픈
   -npm install -g typescript   (TypeScript 설치)

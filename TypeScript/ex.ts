@@ -148,20 +148,152 @@
 // console.log(user.name , user.age); 
 
 
-interface Add {
-	(num1:number, num2:number): number;
-	// (x:number, y:number): number; //도 된다
-}
-const add :Add =function(x,y) {
-	return x+y;
-}
-console.log(add(10,20));
+// interface Add {
+// 	(num1:number, num2:number): number;
+// 	// (x:number, y:number): number; //도 된다
+// }
+// const add :Add =function(x,y) {
+// 	return x+y;
+// }
+// console.log(add(10,20));
 
-interface IsAdult {
-	(age:number):boolean;
+// interface IsAdult {
+// 	(age:number):boolean;
+// }
+
+// const kim: IsAdult = (age) => {
+// 	return age >19;
+// }
+// console.log(kim(30));
+
+console.log('------');
+
+
+// let user:object;
+// user = {
+// 	name:'홍길동';
+// 	age:30	
+// }
+// console.log(user.name, user.age);
+
+// interface User {
+// 	name:string;
+// 	age:number;
+// }
+
+// let user : User ={
+// 	name:'홍길동',
+// 	age : 30
+// }
+// user.age=10;
+// console.log(user.name, user.age);
+
+
+// interface Car{
+// 	color:string;
+// 	wheels:number;
+// 	start():void;
+// }
+
+// interface Car2 extends Car {
+// 	door:number;
+// 	stop():void;
+// }
+
+// class Bmw implements Car {
+// 	color;
+// 	wheels=4;
+// 	constructor(c:string) {
+// 		this.color = c;
+// 	}
+// 	start(): void {
+		
+// 		console.log('Bmw go....!');
+// 	}
+// }
+
+
+// const car1 = new Bmw('green');
+// console.log(car1);
+// car1.start();
+
+// class Benz implements Car2{
+//     color='red';
+//     wheels=4;
+//     door;
+//     constructor(c:number){
+//         this.door=c;
+//     }
+//     start():void{
+//         console.log('Benz go....!');
+//     }
+//     stop():void{
+//         console.log('Benz stop....!');
+//     }
+// }
+
+// const car2 = new Benz(4);
+// console.log(car2);
+// car2.start();
+// car2.stop();
+
+
+// interface Car {
+// 	color:string;
+// 	wheels:number;
+// 	start():void;
+// }
+
+// interface Toy {
+// 	name:string;
+// 	open():void;
+// }
+
+// interface ToyCar extends Car,Toy {
+// 	price:number;
+// 	buy():void;
+// }
+
+// class Product implements ToyCar {
+// 	color='red';
+// 	wheels=4;
+// 	name='doll';
+// 	price=500;
+
+// 	start():void{
+// 		console.log('start..?');
+// 	}
+// 	open(): void {
+// 		console.log('open stop');
+// 	}
+// 	buy(): void {
+// 		console.log('buy stop');
+// 	}
+// }
+// const person1 =new Product();
+// console.log(person1);
+// person1.start();
+// person1.open();
+// person1.buy();
+
+
+// function add(num1:number , num2:number):number{
+//     return num1+num2;
+// }
+// console.log(add(10,20));  //30
+// // console.log(add('dd','dd'))
+
+// function isAdult(age:number):boolean{
+//     return age > 19;
+// }
+
+// console.log(isAdult(30));  //true
+
+
+function hello(name?:string) {
+	return `Hello, ${name || "world"}`;
 }
 
-const kim: IsAdult = (age) => {
-	return age >19;
-}
-console.log(kim(30));
+const result = hello();
+const result2 = hello('kim');
+console.log(result, result2);
