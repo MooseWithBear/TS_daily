@@ -1,2 +1,2 @@
 # TS_daily
-daily study
+TS daily learning log
